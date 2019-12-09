@@ -1,0 +1,61 @@
+{
+  "name": "gateway-split-services",
+  "version": "0.0.1",
+  "description": "Provides utilities to make working with an Apollo Gateway easier when the federated services are split into different repos.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "start": "npm run clean && tsc --project tsconfig.json --watch",
+    "build": "npm run clean && tsc --project tsconfig.json",
+    "clean": "rm -rf dist/*",
+    "lint": "eslint --config .eslintrc.js --ext .ts ./src",
+    "lint:fix": "eslint --fix --config .eslintrc.js --ext .ts ./src",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/itmayziii/gateway-split-services.git"
+  },
+  "keywords": [
+    "apollo",
+    "gateway",
+    "split",
+    "services"
+  ],
+  "author": "Tommy May III <tommymay37@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/itmayziii/gateway-split-services/issues"
+  },
+  "homepage": "https://github.com/itmayziii/gateway-split-services#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "@apollo/gateway": "~0.11.4",
+    "@apollo/federation": "~0.11.2",
+    "@types/node": "~12.12.6",
+    "@typescript-eslint/eslint-plugin": "~2.6.1",
+    "@typescript-eslint/parser": "~2.6.1",
+    "apollo-cli-plugin-split-services": "~2.0.0",
+    "apollo-server": "~2.9.13",
+    "commitizen": "~4.0.3",
+    "cz-conventional-changelog": "~3.0.2",
+    "eslint": "~6.6.0",
+    "eslint-config-standard": "~14.1.0",
+    "eslint-plugin-import": "~2.18.2",
+    "eslint-plugin-node": "~10.0.0",
+    "eslint-plugin-promise": "~4.2.1",
+    "eslint-plugin-standard": "~4.0.1",
+    "eslint-plugin-standard-typescript": "~1.0.0",
+    "standard-version": "~7.0.1",
+    "typescript": "~3.7.3"
+  },
+  "peerDependencies": {
+    "apollo-server": "~2.9.0",
+    "@apollo/gateway": "~0.11.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
