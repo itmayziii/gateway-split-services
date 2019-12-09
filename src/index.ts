@@ -52,9 +52,6 @@ export function getServiceList (apolloConfig: ApolloConfig<SplitServicesGatewayC
   return (apolloConfig as ApolloConfig<SplitServicesGatewayConfig>).splitServices.services.reduce<ServiceEndpointDefinition[]>((accumulator, service) => {
     const apolloConfigPath = service.apolloConfigPath || 'apollo.config.js'
     const serviceConfigAbsolutePath = path.resolve(cwd, service.directory, apolloConfigPath)
-    console.log('apolloConfigPath', apolloConfigPath)
-    console.log('serviceConfigAbsolutePath', serviceConfigAbsolutePath)
-    console.log('relativePath', path.relative(thisPath, serviceConfigAbsolutePath))
     // eslint-disable-next-line @typescript-eslint/no-var-requires
     const serviceApolloConfig: ApolloConfig<ServiceConfig> = require(path.relative(thisPath, serviceConfigAbsolutePath))
     if (!serviceApolloConfig.splitServices.url) {
