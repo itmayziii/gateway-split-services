@@ -5,12 +5,13 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "start": "npm run clean && tsc --project tsconfig.json --watch",
+    "start": "npm run build -- --watch",
     "build": "npm run clean && tsc --project tsconfig.json",
+    "build:test": "npm run clean && tsc --project tsconfig.spec.json",
     "clean": "rm -rf dist/*",
     "lint": "eslint --config .eslintrc.js --ext .ts ./src",
     "lint:fix": "eslint --fix --config .eslintrc.js --ext .ts ./src",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "npm run build:test && nyc jasmine --config=jasmine.json",
     "package": "npm run build && standard-version"
   },
   "repository": {
@@ -31,8 +32,9 @@
   "homepage": "https://github.com/itmayziii/gateway-split-services#readme",
   "dependencies": {},
   "devDependencies": {
-    "@apollo/gateway": "~0.11.4",
     "@apollo/federation": "~0.11.2",
+    "@apollo/gateway": "~0.11.4",
+    "@types/jasmine": "^3.5.0",
     "@types/node": "~12.12.6",
     "@typescript-eslint/eslint-plugin": "~2.6.1",
     "@typescript-eslint/parser": "~2.6.1",
@@ -47,6 +49,7 @@
     "eslint-plugin-promise": "~4.2.1",
     "eslint-plugin-standard": "~4.0.1",
     "eslint-plugin-standard-typescript": "~1.0.0",
+    "jasmine": "^3.5.0",
     "standard-version": "~7.0.1",
     "typescript": "~3.7.3"
   },
@@ -61,5 +64,13 @@
   },
   "files": [
     "dist"
-  ]
+  ],
+  "nyc": {
+    "all": true,
+    "excludeAfterRemap": false,
+    "include": "dist/**/*.js",
+    "exclude": [
+      "dist/**/*.spec.js"
+    ]
+  }
 }
