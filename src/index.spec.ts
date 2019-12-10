@@ -19,6 +19,7 @@ describe('getServiceList', () => {
       .withArgs('/this/path/other/path', 'services/orders', 'apollo.config.js').and.returnValue('/this/path/other/path/services/orders/apollo.config.js')
     const pathRelativeSpy = jasmine.createSpy('pathRelative')
       .withArgs('/this/path/node_modules/package', '/this/path/other/path/services/orders/apollo.config.js').and.returnValue('../../other/path/services/orders/apollo.config.js')
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const requireModuleSpy: any = jasmine.createSpy('requireModule')
       .withArgs('../../other/path/services/orders/apollo.config.js').and.throwError('module not found')
     const errorSpy = jasmine.createSpy('error')
@@ -44,6 +45,7 @@ describe('getServiceList', () => {
       .withArgs('/this/path/other/path', 'services/orders', 'apollo.config.js').and.returnValue('/this/path/other/path/services/orders/apollo.config.js')
     const pathRelativeSpy = jasmine.createSpy('pathRelative')
       .withArgs('/this/path/node_modules/package', '/this/path/other/path/services/orders/apollo.config.js').and.returnValue('../../other/path/services/orders/apollo.config.js')
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const requireModuleSpy: any = jasmine.createSpy('requireModule')
       .withArgs('../../other/path/services/orders/apollo.config.js').and.returnValue({})
     const errorSpy = jasmine.createSpy('error')
@@ -77,6 +79,7 @@ describe('getServiceList', () => {
     const pathRelativeSpy = jasmine.createSpy('pathRelative')
       .withArgs('/this/path/node_modules/package', '/this/path/other/path/services/orders/apollo.config.js').and.returnValue('../../other/path/services/orders/apollo.config.js')
       .withArgs('/this/path/node_modules/package', '/this/path/other/path/services/products/apollo.config.js').and.returnValue('../../other/path/services/products/apollo.config.js')
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const requireModuleSpy: any = jasmine.createSpy('requireModule')
       .withArgs('../../other/path/services/orders/apollo.config.js').and.returnValue({ splitServices: { url: 'http://localhost:4200/graphql' } })
       .withArgs('../../other/path/services/products/apollo.config.js').and.returnValue({ splitServices: { url: 'http://localhost:4400/graphql' } })

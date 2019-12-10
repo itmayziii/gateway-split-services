@@ -1,4 +1,4 @@
-import * as path from "path"
+import * as path from 'path'
 import {
   Experimental_DidFailCompositionCallback as ExperimentalDidFailCompositionCallback,
   Experimental_DidResolveQueryPlanCallback as ExperimentalDidResolveQueryPlanCallback,
