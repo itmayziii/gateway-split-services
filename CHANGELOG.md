@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.1](https://github.com/itmayziii/gateway-split-services/compare/v1.1.0...v1.1.1) (2019-12-11)
+
+
+### Bug Fixes
+
+* **package.json:** moved apollo-server to be a dependency ([868d375](https://github.com/itmayziii/gateway-split-services/commit/868d375127022eaf04fd22a1ef822057ab3da1cf))
+
 ## [1.1.0](https://github.com/itmayziii/gateway-split-services/compare/v1.0.2...v1.1.0) (2019-12-11)
 
 
