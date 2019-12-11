@@ -5,22 +5,30 @@ import {
   ServiceEndpointDefinition
 } from '@apollo/gateway'
 import { ApolloServer, ServerInfo } from 'apollo-server'
-import * as path from 'path'
-import { ConsoleError, GetServiceList, PathRelative, PathResolve, RemoteGatewayConfig, Require } from './interfaces'
+import * as nodePath from 'path'
+import { ConsoleError, GetServiceList, RemoteGatewayConfig, Require } from './interfaces'
 
+/**
+ * Goes through the apollo configuration and pull services from it in a way that is friendly to Apollo's Server.
+ *
+ * @param apolloConfig - Apollo configuration based off of the apollo.config.js file.
+ * @param error - Error logging function.
+ * @param requireModule - NodeJS require.
+ * @param path - NodeJS path module.
+ * @param cwd - Current working directory.
+ */
 export const getServiceList: GetServiceList = function getServiceList (
   apolloConfig: ApolloConfig<SplitServicesGatewayConfig>,
   error: ConsoleError = console.error,
   requireModule: Require = require,
-  pathResolve: PathResolve = path.resolve,
-  pathRelative: PathRelative = path.relative,
+  path: typeof nodePath = nodePath,
   cwd: string = process.cwd()
 ): ServiceEndpointDefinition[] {
-  const thisPath = pathResolve(__dirname)
+  const thisPath = path.resolve(__dirname)
   return (apolloConfig as ApolloConfig<SplitServicesGatewayConfig>).splitServices.services.reduce<ServiceEndpointDefinition[]>((accumulator, service) => {
     const apolloConfigPath = service.apolloConfigPath || 'apollo.config.js'
-    const serviceConfigAbsolutePath = pathResolve(cwd, service.directory, apolloConfigPath)
-    const serviceApolloConfig: ApolloConfig<ServiceConfig> = requireModule(pathRelative(thisPath, serviceConfigAbsolutePath))
+    const serviceConfigAbsolutePath = path.resolve(cwd, service.directory, apolloConfigPath)
+    const serviceApolloConfig: ApolloConfig<ServiceConfig> = requireModule(path.relative(thisPath, serviceConfigAbsolutePath))
     if (!serviceApolloConfig.splitServices || !serviceApolloConfig.splitServices.url) {
       error(`Could not find URL for service ${service.name}, please list it in the apollo.config.js file in the service project.`)
       return accumulator
@@ -31,7 +39,8 @@ export const getServiceList: GetServiceList = function getServiceList (
 }
 
 /**
- * Starts the GraphQL Gateway.
+ * Creates a gateway server that will be managed or unmanged. Unmanaged configuration is automatically loaded from the apollo.config.js
+ * file while a managed service relies on Apollo's Graph Manager.
  *
  * @param apolloConfig - Apollo configuration based off of the apollo.config.js file.
  * @param Server - {@link ApolloServer}
@@ -39,13 +48,13 @@ export const getServiceList: GetServiceList = function getServiceList (
  * @param gatewayConfig - {@link GatewayConfig}
  * @param retrieveServiceList - {@link GetServiceList}
  */
-export function startGateway (
+export function createGateway (
   apolloConfig: ApolloConfig<SplitServicesGatewayConfig>,
   Server: typeof ApolloServer,
   Gateway: typeof ApolloGateway,
   gatewayConfig: GatewayConfig = {},
   retrieveServiceList: GetServiceList = getServiceList
-): Promise<ServerInfo> {
+): ApolloServer {
   if (!process.env.ENGINE_API_KEY) {
     (gatewayConfig as RemoteGatewayConfig).serviceList = retrieveServiceList(apolloConfig)
   }
@@ -57,6 +66,28 @@ export function startGateway (
 
   return new Server({
     gateway: new Gateway(gatewayConfig),
+    subscriptions: false // Subscriptions are not yet supported by @apollo/gateway.
+  })
+}
+
+/**
+ * @deprecated since version v1.1.0. - starting the gateway ends up being more trouble than what it is worth and will be replaced by {@link createGateway}
+ * @param apolloConfig - apollo.config.js configuration.
+ * @param Server - Apollo server from the base apollo-server or apollo-server-express etc...
+ * @param gatewayConfig - Gateway configuration that Apollo is expecting {@link GatewayConfig}
+ */
+export function startGateway (apolloConfig: ApolloConfig<SplitServicesGatewayConfig>, Server: typeof ApolloServer, gatewayConfig: GatewayConfig = {}): Promise<ServerInfo> {
+  if (!process.env.ENGINE_API_KEY) {
+    (gatewayConfig as RemoteGatewayConfig).serviceList = getServiceList(apolloConfig)
+  }
+
+  if (!process.env.ENGINE_API_KEY && !gatewayConfig.experimental_pollInterval) {
+    // eslint-disable-next-line @typescript-eslint/camelcase
+    gatewayConfig.experimental_pollInterval = 10000
+  }
+
+  return new Server({
+    gateway: new ApolloGateway(gatewayConfig),
     subscriptions: false // Subscriptions are not yet supported by @apollo/gateway.
   }).listen()
 }

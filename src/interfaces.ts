@@ -1,4 +1,4 @@
-import * as path from 'path'
+import * as nodePath from 'path'
 import {
   Experimental_DidFailCompositionCallback as ExperimentalDidFailCompositionCallback,
   Experimental_DidResolveQueryPlanCallback as ExperimentalDidResolveQueryPlanCallback,
@@ -11,8 +11,6 @@ import { ServiceDefinition } from '@apollo/federation'
 import { ApolloConfig } from 'apollo-cli-plugin-split-services'
 import { GatewayConfig as SplitServicesGatewayConfig } from 'apollo-cli-plugin-split-services/dist/interfaces/apollo-config'
 
-export type PathResolve = typeof path.resolve
-export type PathRelative = typeof path.relative
 export type ConsoleError = typeof console.error
 export type Require = typeof require
 
@@ -24,8 +22,7 @@ export interface GetServiceList {
    * @param apolloConfig - Apollo gateway configuration based off of the apollo.config.js file.
    * @param error - Function to log errors with.
    * @param requireModule - {@link Require}
-   * @param pathResolve - {@link PathResolve}
-   * @param pathRelative - {@link PathRelative}
+   * @param path - NodeJS path module.
    * @param cwd - Current working directory.
    * @returns A list of services based on the apollo.config.js file.
    * @throws Error when a service apollo.config.js file cannot be found.
@@ -34,8 +31,7 @@ export interface GetServiceList {
     apolloConfig: ApolloConfig<SplitServicesGatewayConfig>,
     error?: ConsoleError,
     requireModule?: Require,
-    pathResolve?: PathResolve,
-    pathRelative?: PathRelative,
+    path?: typeof nodePath,
     cwd?: string
   ): ServiceEndpointDefinition[]
 }
