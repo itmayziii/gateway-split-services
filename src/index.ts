@@ -4,7 +4,7 @@ import {
   GatewayConfig,
   ServiceEndpointDefinition
 } from '@apollo/gateway'
-import { ApolloServer } from 'apollo-server-express'
+import { ApolloServer, ApolloServerExpressConfig } from 'apollo-server-express'
 import { ServerInfo, ApolloServer as NormalApolloServer } from 'apollo-server'
 import * as nodePath from 'path'
 import { ConsoleError, GetServiceList, RemoteGatewayConfig, Require } from './interfaces'
@@ -76,8 +76,9 @@ export function createGateway (
  * @param apolloConfig - apollo.config.js configuration.
  * @param Server - Apollo server from the base apollo-server or apollo-server-express etc...
  * @param gatewayConfig - Gateway configuration that Apollo is expecting {@link GatewayConfig}
+ * @param serverConfig - Server configuration for Apollo Server {@link ApolloServerExpressConfig}
  */
-export function startGateway (apolloConfig: ApolloConfig<SplitServicesGatewayConfig>, Server: typeof NormalApolloServer, gatewayConfig: GatewayConfig = {}): Promise<ServerInfo> {
+export function startGateway (apolloConfig: ApolloConfig<SplitServicesGatewayConfig>, Server: typeof NormalApolloServer, gatewayConfig: GatewayConfig = {}, serverConfig: ApolloServerExpressConfig = {}): Promise<ServerInfo> {
   if (!process.env.ENGINE_API_KEY) {
     (gatewayConfig as RemoteGatewayConfig).serviceList = getServiceList(apolloConfig)
   }
@@ -89,6 +90,7 @@ export function startGateway (apolloConfig: ApolloConfig<SplitServicesGatewayCon
 
   return new Server({
     gateway: new ApolloGateway(gatewayConfig),
-    subscriptions: false // Subscriptions are not yet supported by @apollo/gateway.
+    subscriptions: false, // Subscriptions are not yet supported by @apollo/gateway.
+    ...serverConfig
   }).listen()
 }
