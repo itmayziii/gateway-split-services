@@ -46,7 +46,8 @@ export const getServiceList: GetServiceList = function getServiceList (
  * @param apolloConfig - Apollo configuration based off of the apollo.config.js file.
  * @param Server - {@link ApolloServer}
  * @param Gateway - {@link ApolloGateway}
- * @param gatewayConfig - {@link GatewayConfig}
+ * @param gatewayConfig - Gateway configuration for Apollo {@link GatewayConfig}
+ * @param serverConfig - Server configuration for Apollo Server {@link ApolloServerExpressConfig}
  * @param retrieveServiceList - {@link GetServiceList}
  */
 export function createGateway (
@@ -54,6 +55,7 @@ export function createGateway (
   Server: typeof ApolloServer,
   Gateway: typeof ApolloGateway,
   gatewayConfig: GatewayConfig = {},
+  serverConfig: ApolloServerExpressConfig = {},
   retrieveServiceList: GetServiceList = getServiceList
 ): ApolloServer {
   if (!process.env.ENGINE_API_KEY) {
@@ -67,7 +69,8 @@ export function createGateway (
 
   return new Server({
     gateway: new Gateway(gatewayConfig),
-    subscriptions: false // Subscriptions are not yet supported by @apollo/gateway.
+    subscriptions: false, // Subscriptions are not yet supported by @apollo/gateway.
+    ...serverConfig
   })
 }
 
