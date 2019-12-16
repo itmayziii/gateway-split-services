@@ -1,6 +1,6 @@
 {
   "name": "gateway-split-services",
-  "version": "1.2.1",
+  "version": "1.3.0",
   "description": "Provides utilities to make working with an Apollo Gateway easier when the federated services are split into different repos.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
