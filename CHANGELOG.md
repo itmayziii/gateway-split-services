@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://github.com/itmayziii/gateway-split-services/compare/v1.1.2...v1.2.0) (2019-12-16)
+
+
+### Features
+
+* **index:** added apollo server configuration to allow overrides ([8bbca3b](https://github.com/itmayziii/gateway-split-services/commit/8bbca3bf66be507e39f543afa5e6f7f1a088d944))
+
 ### [1.1.2](https://github.com/itmayziii/gateway-split-services/compare/v1.1.1...v1.1.2) (2019-12-11)
 
 
