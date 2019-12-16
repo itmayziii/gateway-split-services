@@ -22,7 +22,8 @@
     "apollo",
     "gateway",
     "split",
-    "services"
+    "services",
+    "federation"
   ],
   "author": "Tommy May III <tommymay37@gmail.com>",
   "license": "MIT",
