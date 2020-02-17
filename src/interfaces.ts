@@ -5,7 +5,7 @@ import {
   Experimental_DidUpdateCompositionCallback as ExperimentalDidUpdateCompositionCallback,
   Experimental_UpdateServiceDefinitions as ExperimentalUpdateServiceDefinition,
   GraphQLDataSource,
-  ServiceEndpointDefinition,
+  ServiceEndpointDefinition
 } from '@apollo/gateway'
 import { ServiceDefinition } from '@apollo/federation'
 import { ApolloConfig } from 'apollo-cli-plugin-split-services'
