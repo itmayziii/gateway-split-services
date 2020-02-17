@@ -12,6 +12,7 @@
       "es6",
       "dom"
     ],
+    "skipLibCheck": true,
     "esModuleInterop": true
   },
   "include": [

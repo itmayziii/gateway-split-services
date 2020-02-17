@@ -43,7 +43,6 @@
     "@typescript-eslint/eslint-plugin": "~2.6.1",
     "@typescript-eslint/parser": "~2.6.1",
     "apollo-cli-plugin-split-services": "~2.1.5",
-    "apollo-server": "~2.9.13",
     "commitizen": "~4.0.3",
     "cz-conventional-changelog": "~3.0.2",
     "eslint": "~6.6.0",
