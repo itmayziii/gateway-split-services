@@ -67,6 +67,13 @@ export function createGateway (
     gatewayConfig.experimental_pollInterval = 10000
   }
 
+  if (process.env.ENGINE_API_KEY) {
+    serverConfig.engine = {
+      apiKey: process.env.ENGINE_API_KEY,
+      schemaTag: process.env.ENGINE_SCHEMA_TAG
+    }
+  }
+
   return new Server({
     gateway: new Gateway(gatewayConfig),
     subscriptions: false, // Subscriptions are not yet supported by @apollo/gateway.
